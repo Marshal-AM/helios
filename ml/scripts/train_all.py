@@ -16,6 +16,7 @@ if not PYTHON.exists():
 
 LOG_DIR = REPO_ROOT / "ml" / "artifacts" / "logs"
 LOG_DIR.mkdir(parents=True, exist_ok=True)
+LATEST_LOG = LOG_DIR / "train_all_latest.log"
 
 SCRIPTS = [
     ("organize", REPO_ROOT / "ml" / "scripts" / "organize_datasets.py", []),
@@ -26,75 +27,58 @@ SCRIPTS = [
 ]
 
 
-class Tee:
-    """Write to terminal and a log file at the same time."""
-
-    def __init__(self, log_path: Path) -> None:
-        self._log_path = log_path
-        self._file = log_path.open("a", encoding="utf-8", errors="replace")
-
-    def write(self, text: str) -> None:
-        sys.stdout.write(text)
-        sys.stdout.flush()
-        self._file.write(text)
-        self._file.flush()
-
-    def close(self) -> None:
-        self._file.close()
+def _log_line(log_path: Path, text: str) -> None:
+    line = text if text.endswith("\n") else text + "\n"
+    with log_path.open("a", encoding="utf-8", errors="replace") as f:
+        f.write(line)
+    print(line, end="", flush=True)
 
 
-def _log_line(tee: Tee, text: str) -> None:
-    tee.write(text if text.endswith("\n") else text + "\n")
-
-
-def run_step(name: str, script: Path, extra: list[str], tee: Tee) -> None:
+def run_step(name: str, script: Path, extra: list[str], log_path: Path) -> None:
     banner = f"\n{'=' * 60}\nSTEP: {name}\n{'=' * 60}\n"
-    _log_line(tee, banner)
+    _log_line(log_path, banner)
 
     cmd = [str(PYTHON), "-u", str(script), *extra]
-    env = {**os.environ, "PYTHONUNBUFFERED": "1"}
+    env = {
+        **os.environ,
+        "PYTHONUNBUFFERED": "1",
+        "HELIOS_TRAIN_LOG": str(log_path),
+    }
 
-    proc = subprocess.Popen(
-        cmd,
-        cwd=str(REPO_ROOT),
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        text=True,
-        encoding="utf-8",
-        errors="replace",
-        bufsize=1,
-        env=env,
-    )
-    assert proc.stdout is not None
-    for line in proc.stdout:
-        tee.write(line)
-    rc = proc.wait()
-    if rc != 0:
-        raise subprocess.CalledProcessError(rc, cmd)
+    # Inherit stdout/stderr so progress bars and live output appear in the terminal.
+    # Each child script tees the same streams into HELIOS_TRAIN_LOG.
+    subprocess.run(cmd, check=True, cwd=str(REPO_ROOT), env=env)
 
 
 def main() -> None:
     stamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
     log_path = LOG_DIR / f"train_all_{stamp}.log"
-    tee = Tee(log_path)
+    log_path.write_text("", encoding="utf-8")
 
     header = (
         f"train_all started at {datetime.now(timezone.utc).isoformat()}\n"
         f"python: {PYTHON}\n"
         f"log file: {log_path}\n"
     )
-    _log_line(tee, header)
-    print(f"Logging to {log_path}", flush=True)
+    _log_line(log_path, header)
 
     try:
         for name, script, extra in SCRIPTS:
-            run_step(name, script, extra, tee)
-        _log_line(tee, "\nAll training and export steps complete.\n")
+            run_step(name, script, extra, log_path)
+        _log_line(log_path, "\nAll training and export steps complete.\n")
     except subprocess.CalledProcessError as exc:
-        _log_line(tee, f"\nFAILED (exit {exc.returncode}): {' '.join(exc.cmd)}\n")
+        _log_line(log_path, f"\nFAILED (exit {exc.returncode}): {' '.join(exc.cmd)}\n")
         raise SystemExit(exc.returncode) from exc
+    except KeyboardInterrupt:
+        _log_line(log_path, "\nInterrupted by user.\n")
+        raise SystemExit(130) from None
     finally:
-        tee.close()
+        try:
+            LATEST_LOG.write_text(log_path.read_text(encoding="utf-8"), encoding="utf-8")
+        except OSError:
+            pass
+        print(f"\nFull log saved to: {log_path}", flush=True)
+        print(f"Latest copy at:    {LATEST_LOG}", flush=True)
 
 
 if __name__ == "__main__":

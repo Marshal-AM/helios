@@ -15,6 +15,7 @@ sys.path.insert(0, str(REPO_ROOT))
 
 from ml.models.mstar_cnn import MStarCNN  # noqa: E402
 from ml.paths import ARTIFACTS_DIR, MODELS_REPO  # noqa: E402
+from ml.scripts.train_log import setup_train_log  # noqa: E402
 
 
 def write_yolo_config(model_dir: Path, use_tensorrt: bool) -> None:
@@ -106,7 +107,7 @@ def export_yolo(weights: Path, onnx_path: Path) -> None:
     from ultralytics import YOLO
 
     if not weights.exists():
-        print(f"YOLO weights missing: {weights}")
+        print(f"YOLO weights missing: {weights}", flush=True)
         return
     model = YOLO(str(weights))
     model.export(format="onnx", imgsz=640, opset=17, simplify=True)
@@ -118,7 +119,7 @@ def export_yolo(weights: Path, onnx_path: Path) -> None:
         import shutil
 
         shutil.copy2(exported, onnx_path)
-        print(f"YOLO ONNX -> {onnx_path}")
+        print(f"YOLO ONNX -> {onnx_path}", flush=True)
 
 
 def export_mstar(checkpoint: Path, onnx_path: Path, num_classes: int = 8) -> None:
@@ -140,7 +141,7 @@ def export_mstar(checkpoint: Path, onnx_path: Path, num_classes: int = 8) -> Non
         dynamic_axes={"input": {0: "batch"}, "output": {0: "batch"}},
         opset_version=17,
     )
-    print(f"MSTAR ONNX -> {onnx_path}")
+    print(f"MSTAR ONNX -> {onnx_path}", flush=True)
 
 
 def export_bit(checkpoint: Path, onnx_path: Path) -> None:
@@ -176,7 +177,7 @@ def export_bit(checkpoint: Path, onnx_path: Path) -> None:
         output_names=["change_mask"],
         opset_version=17,
     )
-    print(f"BIT ONNX -> {onnx_path}")
+    print(f"BIT ONNX -> {onnx_path}", flush=True)
 
 
 def main() -> None:
@@ -184,6 +185,8 @@ def main() -> None:
     parser.add_argument("--models-dir", type=Path, default=MODELS_REPO)
     parser.add_argument("--tensorrt", action="store_true")
     args = parser.parse_args()
+    setup_train_log()
+    print("Exporting models to Triton repository...", flush=True)
 
     yolo_weights = ARTIFACTS_DIR / "yolo" / "best.pt"
     mstar_ckpt = ARTIFACTS_DIR / "mstar" / "best.pth"
@@ -209,7 +212,7 @@ def main() -> None:
     }
     with open(args.models_dir / "export_manifest.json", "w", encoding="utf-8") as f:
         json.dump(manifest, f, indent=2)
-    print("Triton export complete. Restart triton and check /v2/models/ready")
+    print("Triton export complete. Restart triton and check /v2/models/ready", flush=True)
 
 
 if __name__ == "__main__":

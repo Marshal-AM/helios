@@ -23,6 +23,7 @@ sys.path.insert(0, str(REPO_ROOT))
 
 from ml.models.mstar_cnn import MStarCNN  # noqa: E402
 from ml.paths import ARTIFACTS_DIR, DATASETS_DIR  # noqa: E402
+from ml.scripts.train_log import setup_train_log  # noqa: E402
 
 ANGLE_RE = re.compile(r"(\d{2})\s*deg|depression[_-]?(\d{2})|(\d{2})[_-]degree", re.I)
 # MSTAR chip filename prefixes (Kaggle padded_imgs: HB = 17°, HA = 15°)
@@ -119,6 +120,7 @@ def main() -> None:
     parser.add_argument("--batch", type=int, default=16)
     parser.add_argument("--lr", type=float, default=1e-4)
     args = parser.parse_args()
+    setup_train_log()
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     all_samples = discover_samples(args.data)
@@ -128,7 +130,7 @@ def main() -> None:
     classes = sorted({s[1] for s in all_samples})
     class_to_idx = {c: i for i, c in enumerate(classes)}
     train_samples, test_samples = split_by_angle(all_samples)
-    print(f"Train={len(train_samples)} Test={len(test_samples)} Classes={len(classes)}")
+    print(f"Train={len(train_samples)} Test={len(test_samples)} Classes={len(classes)}", flush=True)
 
     train_ds = MStarDataset(train_samples, class_to_idx, build_transforms(True))
     test_ds = MStarDataset(test_samples, class_to_idx, build_transforms(False))
@@ -145,10 +147,11 @@ def main() -> None:
     best_acc = 0.0
     best_path = out_dir / "best.pth"
 
+    n_batches = len(train_loader)
     for epoch in range(args.epochs):
         model.train()
         total_loss = 0.0
-        for x, y in train_loader:
+        for batch_idx, (x, y) in enumerate(train_loader, start=1):
             x, y = x.to(device), y.to(device)
             optimizer.zero_grad()
             logits = model(x)
@@ -156,6 +159,12 @@ def main() -> None:
             loss.backward()
             optimizer.step()
             total_loss += loss.item()
+            if batch_idx == 1 or batch_idx % 50 == 0 or batch_idx == n_batches:
+                print(
+                    f"Epoch {epoch + 1}/{args.epochs} "
+                    f"batch {batch_idx}/{n_batches} loss={loss.item():.4f}",
+                    flush=True,
+                )
         scheduler.step()
 
         model.eval()
@@ -167,7 +176,10 @@ def main() -> None:
                 correct += (pred == y).sum().item()
                 total += y.size(0)
         acc = correct / max(total, 1)
-        print(f"Epoch {epoch + 1}/{args.epochs} loss={total_loss / len(train_loader):.4f} acc={acc:.4f}")
+        print(
+            f"Epoch {epoch + 1}/{args.epochs} loss={total_loss / len(train_loader):.4f} acc={acc:.4f}",
+            flush=True,
+        )
         if acc > best_acc:
             best_acc = acc
             torch.save(
@@ -202,7 +214,7 @@ def main() -> None:
     with open(out_dir / "classes.txt", "w", encoding="utf-8") as f:
         f.write("\n".join(classes))
 
-    print(f"Best accuracy: {best_acc:.4f} saved to {best_path}")
+    print(f"Best accuracy: {best_acc:.4f} saved to {best_path}", flush=True)
 
 
 if __name__ == "__main__":

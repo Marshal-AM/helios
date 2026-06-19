@@ -11,6 +11,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO_ROOT))
 
 from ml.paths import DATASETS_DIR  # noqa: E402
+from ml.scripts.train_log import setup_train_log  # noqa: E402
 
 MSTAR_SRC = REPO_ROOT / "datasets" / "Padded_imgs"
 MSTAR_DST = DATASETS_DIR / "mstar"
@@ -42,6 +43,7 @@ def flatten_nested(parent: Path, nested_name: str) -> None:
 
 
 def main() -> None:
+    setup_train_log()
     DATASETS_DIR.mkdir(parents=True, exist_ok=True)
 
     # MSTAR: datasets/Padded_imgs -> ml/datasets/mstar/
@@ -58,11 +60,11 @@ def main() -> None:
     if dota_raw.exists() and not any(dota_raw.rglob("*.png")) and not any(dota_raw.rglob("*.jpg")):
         shutil.rmtree(dota_raw, ignore_errors=True)
 
-    print("Dataset layout:")
+    print("Dataset layout:", flush=True)
     for name in ("mstar", "dota", "levir_cd", "whu_cd"):
         p = DATASETS_DIR / name
         status = "OK" if p.exists() else "MISSING"
-        print(f"  {name}: {status} -> {p}")
+        print(f"  {name}: {status} -> {p}", flush=True)
 
 
 if __name__ == "__main__":

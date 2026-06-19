@@ -17,6 +17,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO_ROOT))
 
 from ml.paths import ARTIFACTS_DIR, DATASETS_DIR  # noqa: E402
+from ml.scripts.train_log import setup_train_log  # noqa: E402
 
 
 class ChangeDataset(Dataset):
@@ -75,10 +76,16 @@ def main() -> None:
     parser.add_argument("--epochs", type=int, default=50)
     parser.add_argument("--batch", type=int, default=2)
     args = parser.parse_args()
+    setup_train_log()
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     train_names = load_names(args.data / "list" / "train.txt")
     test_names = load_names(args.data / "list" / "test.txt")
+    print(
+        f"BIT training: train={len(train_names)} test={len(test_names)} "
+        f"epochs={args.epochs} batch={args.batch}",
+        flush=True,
+    )
 
     train_ds = ChangeDataset(args.data, train_names)
     test_ds = ChangeDataset(args.data, test_names)
@@ -93,11 +100,12 @@ def main() -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     best_f1 = 0.0
     best_path = out_dir / "best.pth"
+    n_batches = len(train_loader)
 
     for epoch in range(args.epochs):
         model.train()
         total_loss = 0.0
-        for x, y in train_loader:
+        for batch_idx, (x, y) in enumerate(train_loader, start=1):
             x, y = x.to(device), y.to(device)
             opt.zero_grad()
             logits = model(x)
@@ -105,6 +113,12 @@ def main() -> None:
             loss.backward()
             opt.step()
             total_loss += loss.item()
+            if batch_idx == 1 or batch_idx % 50 == 0 or batch_idx == n_batches:
+                print(
+                    f"Epoch {epoch + 1}/{args.epochs} "
+                    f"batch {batch_idx}/{n_batches} loss={loss.item():.4f}",
+                    flush=True,
+                )
 
         model.eval()
         scores = []
@@ -114,14 +128,17 @@ def main() -> None:
                 pred = torch.sigmoid(model(x))
                 scores.append(f1_score(pred, y))
         f1 = sum(scores) / max(len(scores), 1)
-        print(f"Epoch {epoch + 1}/{args.epochs} loss={total_loss / len(train_loader):.4f} f1={f1:.4f}")
+        print(
+            f"Epoch {epoch + 1}/{args.epochs} loss={total_loss / len(train_loader):.4f} f1={f1:.4f}",
+            flush=True,
+        )
         if f1 > best_f1:
             best_f1 = f1
             torch.save({"model_state_dict": model.state_dict(), "f1": f1}, best_path)
 
     with open(out_dir / "metrics.json", "w", encoding="utf-8") as f:
         json.dump({"f1": best_f1}, f, indent=2)
-    print(f"Saved {best_path} f1={best_f1:.4f}")
+    print(f"Saved {best_path} f1={best_f1:.4f}", flush=True)
 
 
 if __name__ == "__main__":

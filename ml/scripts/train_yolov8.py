@@ -16,6 +16,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO_ROOT))
 
 from ml.paths import ARTIFACTS_DIR, CONFIGS_DIR  # noqa: E402
+from ml.scripts.train_log import setup_train_log  # noqa: E402
 
 
 def save_training_charts(results_csv: Path, out_dir: Path, model, data_yaml: Path) -> None:
@@ -77,6 +78,7 @@ def main() -> None:
     parser.add_argument("--imgsz", type=int, default=640)
     parser.add_argument("--model-size", type=str, default=os.getenv("YOLO_MODEL_SIZE", "s"))
     args = parser.parse_args()
+    setup_train_log()
 
     from ultralytics import YOLO
 
@@ -84,6 +86,11 @@ def main() -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     model_name = f"yolov8{args.model_size}-obb.pt"
+    print(
+        f"YOLO training: model={model_name} data={args.data} "
+        f"epochs={args.epochs} batch={args.batch} imgsz={args.imgsz}",
+        flush=True,
+    )
     model = YOLO(model_name)
 
     results = model.train(
@@ -100,21 +107,22 @@ def main() -> None:
         exist_ok=True,
         save=True,
         plots=True,
+        verbose=True,
     )
 
     best_src = Path(results.save_dir) / "weights" / "best.pt"
     best_dst = out_dir / "best.pt"
     if best_src.exists():
         shutil.copy2(best_src, best_dst)
-        print(f"Saved {best_dst}")
+        print(f"Saved {best_dst}", flush=True)
 
     results_csv = Path(results.save_dir) / "results.csv"
     if results_csv.exists():
         save_training_charts(results_csv, out_dir, model, args.data)
     else:
-        print("Warning: results.csv not found; charts may be incomplete")
+        print("Warning: results.csv not found; charts may be incomplete", flush=True)
 
-    print("Training complete. Artifacts in", out_dir)
+    print("Training complete. Artifacts in", out_dir, flush=True)
 
 
 if __name__ == "__main__":
