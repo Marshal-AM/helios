@@ -1,0 +1,17 @@
+train_all started at 2026-06-19T07:09:09.405357+00:00
+python: C:\Users\MSI\Desktop\helios\.venv-train\Scripts\python.exe
+log file: C:\Users\MSI\Desktop\helios\ml\artifacts\logs\train_all_20260619_070909.log
+
+============================================================
+STEP: organize
+============================================================
+Dataset layout:
+  mstar: OK -> C:\Users\MSI\Desktop\helios\ml\datasets\mstar
+  dota: OK -> C:\Users\MSI\Desktop\helios\ml\datasets\dota
+  levir_cd: OK -> C:\Users\MSI\Desktop\helios\ml\datasets\levir_cd
+  whu_cd: OK -> C:\Users\MSI\Desktop\helios\ml\datasets\whu_cd
+
+============================================================
+STEP: mstar
+============================================================
+Train=7570 Test=1896 Classes=8

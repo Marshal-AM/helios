@@ -26,19 +26,19 @@ def write_yolo_config(model_dir: Path, use_tensorrt: bool) -> None:
     ext = "plan" if use_tensorrt else "onnx"
     pbtxt = f"""name: "yolov8_detection"
 platform: "{platform}"
-max_batch_size: 8
+max_batch_size: 0
 input [
   {{
     name: "images"
     data_type: TYPE_FP32
-    dims: [ 3, 640, 640 ]
+    dims: [ 1, 3, 640, 640 ]
   }}
 ]
 output [
   {{
     name: "output0"
     data_type: TYPE_FP32
-    dims: [ -1, -1 ]
+    dims: [ 1, 20, 8400 ]
   }}
 ]
 """
@@ -78,24 +78,24 @@ def write_bit_config(model_dir: Path) -> Path:
     version_dir.mkdir(parents=True, exist_ok=True)
     pbtxt = """name: "bit_change"
 platform: "onnxruntime_onnx"
-max_batch_size: 4
+max_batch_size: 0
 input [
   {
     name: "t1"
     data_type: TYPE_FP32
-    dims: [ 3, 256, 256 ]
+    dims: [ 1, 3, 256, 256 ]
   },
   {
     name: "t2"
     data_type: TYPE_FP32
-    dims: [ 3, 256, 256 ]
+    dims: [ 1, 3, 256, 256 ]
   }
 ]
 output [
   {
     name: "change_mask"
     data_type: TYPE_FP32
-    dims: [ 1, 256, 256 ]
+    dims: [ 1, 1, 256, 256 ]
   }
 ]
 """

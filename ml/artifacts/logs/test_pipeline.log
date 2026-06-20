@@ -1,0 +1,5 @@
+Dataset layout:
+  mstar: OK -> C:\Users\MSI\Desktop\helios\ml\datasets\mstar
+  dota: OK -> C:\Users\MSI\Desktop\helios\ml\datasets\dota
+  levir_cd: OK -> C:\Users\MSI\Desktop\helios\ml\datasets\levir_cd
+  whu_cd: OK -> C:\Users\MSI\Desktop\helios\ml\datasets\whu_cd

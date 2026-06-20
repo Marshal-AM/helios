@@ -1,0 +1,5 @@
+{
+  "yolov8_detection": "/workspace/helios/models/yolov8_detection/1/model.onnx",
+  "mstar_sar": "/workspace/helios/models/mstar_sar/1/model.onnx",
+  "bit_change": "/workspace/helios/models/bit_change/1/model.onnx"
+}

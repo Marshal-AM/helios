@@ -1,0 +1,118 @@
+train_all started at 2026-06-19T07:16:53.291984+00:00
+python: C:\Users\MSI\Desktop\helios\.venv-train\Scripts\python.exe
+log file: C:\Users\MSI\Desktop\helios\ml\artifacts\logs\train_all_20260619_071653.log
+
+============================================================
+STEP: organize
+============================================================
+Dataset layout:
+  mstar: OK -> C:\Users\MSI\Desktop\helios\ml\datasets\mstar
+  dota: OK -> C:\Users\MSI\Desktop\helios\ml\datasets\dota
+  levir_cd: OK -> C:\Users\MSI\Desktop\helios\ml\datasets\levir_cd
+  whu_cd: OK -> C:\Users\MSI\Desktop\helios\ml\datasets\whu_cd
+
+============================================================
+STEP: mstar
+============================================================
+Train=7570 Test=1896 Classes=8
+Epoch 1/40 batch 1/474 loss=2.1259
+Epoch 1/40 batch 50/474 loss=0.6625
+Epoch 1/40 batch 100/474 loss=0.7643
+Epoch 1/40 batch 150/474 loss=0.1681
+Epoch 1/40 batch 200/474 loss=0.0443
+Epoch 1/40 batch 250/474 loss=0.0612
+Epoch 1/40 batch 300/474 loss=0.0988
+Epoch 1/40 batch 350/474 loss=0.0782
+Epoch 1/40 batch 400/474 loss=0.1239
+Epoch 1/40 batch 450/474 loss=0.1879
+Epoch 1/40 batch 474/474 loss=0.5991
+Epoch 1/40 loss=0.3402 acc=0.9910
+Epoch 2/40 batch 1/474 loss=0.0385
+Epoch 2/40 batch 50/474 loss=0.3438
+Epoch 2/40 batch 100/474 loss=0.1741
+Epoch 2/40 batch 150/474 loss=0.0094
+Epoch 2/40 batch 200/474 loss=0.0447
+Epoch 2/40 batch 250/474 loss=0.0447
+Epoch 2/40 batch 300/474 loss=0.0431
+Epoch 2/40 batch 350/474 loss=0.0658
+Epoch 2/40 batch 400/474 loss=0.5718
+Epoch 2/40 batch 450/474 loss=0.1031
+Epoch 2/40 batch 474/474 loss=2.5029
+Epoch 2/40 loss=0.0882 acc=0.9884
+Epoch 3/40 batch 1/474 loss=0.0059
+Epoch 3/40 batch 50/474 loss=0.0699
+Epoch 3/40 batch 100/474 loss=0.0054
+Epoch 3/40 batch 150/474 loss=0.0100
+Epoch 3/40 batch 200/474 loss=0.0548
+Epoch 3/40 batch 250/474 loss=0.0312
+Epoch 3/40 batch 300/474 loss=0.0022
+Epoch 3/40 batch 350/474 loss=0.0031
+Epoch 3/40 batch 400/474 loss=0.0208
+Epoch 3/40 batch 450/474 loss=0.0412
+Epoch 3/40 batch 474/474 loss=0.7460
+Epoch 3/40 loss=0.0448 acc=0.9963
+Epoch 4/40 batch 1/474 loss=0.0009
+Epoch 4/40 batch 50/474 loss=0.0027
+Epoch 4/40 batch 100/474 loss=0.0178
+Epoch 4/40 batch 150/474 loss=0.0017
+Epoch 4/40 batch 200/474 loss=0.0474
+Epoch 4/40 batch 250/474 loss=0.2022
+Epoch 4/40 batch 300/474 loss=0.0204
+Epoch 4/40 batch 350/474 loss=0.0016
+Epoch 4/40 batch 400/474 loss=0.0488
+Epoch 4/40 batch 450/474 loss=0.0031
+Epoch 4/40 batch 474/474 loss=0.1932
+Epoch 4/40 loss=0.0282 acc=0.9747
+Epoch 5/40 batch 1/474 loss=0.0134
+Epoch 5/40 batch 50/474 loss=0.1261
+Epoch 5/40 batch 100/474 loss=0.0104
+Epoch 5/40 batch 150/474 loss=0.0500
+Epoch 5/40 batch 200/474 loss=0.0014
+Epoch 5/40 batch 250/474 loss=0.0013
+Epoch 5/40 batch 300/474 loss=0.0019
+Epoch 5/40 batch 350/474 loss=0.0026
+Epoch 5/40 batch 400/474 loss=0.0116
+Epoch 5/40 batch 450/474 loss=0.0473
+Epoch 5/40 batch 474/474 loss=0.4315
+Epoch 5/40 loss=0.0263 acc=1.0000
+Epoch 6/40 batch 1/474 loss=0.0104
+Epoch 6/40 batch 50/474 loss=0.0034
+Epoch 6/40 batch 100/474 loss=0.0136
+Epoch 6/40 batch 150/474 loss=0.0021
+Epoch 6/40 batch 200/474 loss=0.0003
+Epoch 6/40 batch 250/474 loss=0.0461
+Epoch 6/40 batch 300/474 loss=0.0081
+Epoch 6/40 batch 350/474 loss=0.0034
+Epoch 6/40 batch 400/474 loss=0.0016
+Epoch 6/40 batch 450/474 loss=0.0488
+Epoch 6/40 batch 474/474 loss=0.0132
+Epoch 6/40 loss=0.0225 acc=0.9984
+Epoch 7/40 batch 1/474 loss=0.0040
+Epoch 7/40 batch 50/474 loss=0.0010
+Epoch 7/40 batch 100/474 loss=0.0161
+Epoch 7/40 batch 150/474 loss=0.0018
+Epoch 7/40 batch 200/474 loss=0.0200
+Epoch 7/40 batch 250/474 loss=0.0014
+Epoch 7/40 batch 300/474 loss=0.0076
+Epoch 7/40 batch 350/474 loss=0.0025
+Epoch 7/40 batch 400/474 loss=0.0021
+Epoch 7/40 batch 450/474 loss=0.0037
+Epoch 7/40 batch 474/474 loss=1.2886
+Epoch 7/40 loss=0.0251 acc=0.9989
+Epoch 8/40 batch 1/474 loss=0.0058
+Epoch 8/40 batch 50/474 loss=0.0237
+Epoch 8/40 batch 100/474 loss=0.0048
+Epoch 8/40 batch 150/474 loss=0.0015
+Epoch 8/40 batch 200/474 loss=0.0199
+Epoch 8/40 batch 250/474 loss=0.0240
+Epoch 8/40 batch 300/474 loss=0.0040
+Epoch 8/40 batch 350/474 loss=0.0128
+Traceback (most recent call last):
+  File "C:\Users\MSI\Desktop\helios\ml\scripts\train_mstar.py", line 221, in <module>
+    main()
+  File "C:\Users\MSI\Desktop\helios\ml\scripts\train_mstar.py", line 161, in main
+    total_loss += loss.item()
+                  ^^^^^^^^^^^
+KeyboardInterrupt
+
+Interrupted by user.

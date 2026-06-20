@@ -30,26 +30,15 @@ out/
 .DS_Store
 Thumbs.db
 
-# Logs (training writes timestamped logs under ml/artifacts/logs/)
-*.log
-
-# Triton model binaries (keep config.pbtxt only)
-models/**/*
-!models/**/config.pbtxt
-!models/**/.gitkeep
-!models/.gitkeep
-
-# Large ML data and outputs
-ml/datasets/
-ml/artifacts/
-tiles/
-data/
-datasets/
-
 # IDE
 .idea/
 .vscode/
 *.swp
 *.swo
 
-/ml/datasets.zip
+# Large ML datasets only (models/artifacts are committed)
+ml/datasets/
+datasets/
+ml/datasets.zip
+tiles/
+data/

@@ -1,0 +1,550 @@
+train_all started at 2026-06-20T06:27:55.806411+00:00
+python: /workspace/helios/.venv-train/bin/python
+log file: /workspace/helios/ml/artifacts/logs/train_all_20260620_062755.log
+
+============================================================
+STEP: organize
+============================================================
+Dataset layout:
+  mstar: OK -> /workspace/helios/ml/datasets/mstar
+  dota: OK -> /workspace/helios/ml/datasets/dota
+  levir_cd: OK -> /workspace/helios/ml/datasets/levir_cd
+  whu_cd: OK -> /workspace/helios/ml/datasets/whu_cd
+
+============================================================
+STEP: mstar
+============================================================
+Train=7570 Test=1896 Classes=8
+Downloading: "https://download.pytorch.org/models/resnet18-f37072fd.pth" to /root/.cache/torch/hub/checkpoints/resnet18-f37072fd.pth
+
+  0%|                                                                                                                                                    | 0.00/44.7M [00:00<?, ?B/s]
+ 40%|████████████████████████████████████████████████████████▍                                                                                   | 18.0M/44.7M [00:00<00:00, 188MB/s]
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 44.7M/44.7M [00:00<00:00, 245MB/s]
+Epoch 1/40 batch 1/474 loss=2.3443
+Epoch 1/40 batch 50/474 loss=0.5361
+Epoch 1/40 batch 100/474 loss=0.4239
+Epoch 1/40 batch 150/474 loss=0.2531
+Epoch 1/40 batch 200/474 loss=0.0485
+Epoch 1/40 batch 250/474 loss=0.1828
+Epoch 1/40 batch 300/474 loss=0.2116
+Epoch 1/40 batch 350/474 loss=0.1259
+Epoch 1/40 batch 400/474 loss=0.1254
+Epoch 1/40 batch 450/474 loss=0.1764
+Epoch 1/40 batch 474/474 loss=0.7559
+Epoch 1/40 loss=0.3080 acc=0.9784
+Epoch 2/40 batch 1/474 loss=0.1573
+Epoch 2/40 batch 50/474 loss=0.0808
+Epoch 2/40 batch 100/474 loss=0.1661
+Epoch 2/40 batch 150/474 loss=0.0917
+Epoch 2/40 batch 200/474 loss=0.0173
+Epoch 2/40 batch 250/474 loss=0.0091
+Epoch 2/40 batch 300/474 loss=0.0683
+Epoch 2/40 batch 350/474 loss=0.0122
+Epoch 2/40 batch 400/474 loss=0.0234
+Epoch 2/40 batch 450/474 loss=0.4104
+Epoch 2/40 batch 474/474 loss=0.3576
+Epoch 2/40 loss=0.0855 acc=0.9953
+Epoch 3/40 batch 1/474 loss=0.0656
+Epoch 3/40 batch 50/474 loss=0.0036
+Epoch 3/40 batch 100/474 loss=0.0042
+Epoch 3/40 batch 150/474 loss=0.0021
+Epoch 3/40 batch 200/474 loss=0.0149
+Epoch 3/40 batch 250/474 loss=0.0051
+Epoch 3/40 batch 300/474 loss=0.0045
+Epoch 3/40 batch 350/474 loss=0.0148
+Epoch 3/40 batch 400/474 loss=0.0010
+Epoch 3/40 batch 450/474 loss=0.0018
+Epoch 3/40 batch 474/474 loss=0.1866
+Epoch 3/40 loss=0.0438 acc=0.9947
+Epoch 4/40 batch 1/474 loss=0.0062
+Epoch 4/40 batch 50/474 loss=0.0101
+Epoch 4/40 batch 100/474 loss=0.0132
+Epoch 4/40 batch 150/474 loss=0.0020
+Epoch 4/40 batch 200/474 loss=0.0018
+Epoch 4/40 batch 250/474 loss=0.0011
+Epoch 4/40 batch 300/474 loss=0.0062
+Epoch 4/40 batch 350/474 loss=0.0017
+Epoch 4/40 batch 400/474 loss=0.0191
+Epoch 4/40 batch 450/474 loss=0.0026
+Epoch 4/40 batch 474/474 loss=0.5739
+Epoch 4/40 loss=0.0260 acc=0.9942
+Epoch 5/40 batch 1/474 loss=0.0031
+Epoch 5/40 batch 50/474 loss=0.0444
+Epoch 5/40 batch 100/474 loss=0.0008
+Epoch 5/40 batch 150/474 loss=0.0363
+Epoch 5/40 batch 200/474 loss=0.0117
+Epoch 5/40 batch 250/474 loss=0.0134
+Epoch 5/40 batch 300/474 loss=0.0509
+Epoch 5/40 batch 350/474 loss=0.0027
+Epoch 5/40 batch 400/474 loss=0.0007
+Epoch 5/40 batch 450/474 loss=0.0027
+Epoch 5/40 batch 474/474 loss=0.1748
+Epoch 5/40 loss=0.0266 acc=0.9958
+Epoch 6/40 batch 1/474 loss=0.0015
+Epoch 6/40 batch 50/474 loss=0.0070
+Epoch 6/40 batch 100/474 loss=0.0034
+Epoch 6/40 batch 150/474 loss=0.0062
+Epoch 6/40 batch 200/474 loss=0.0022
+Epoch 6/40 batch 250/474 loss=0.0025
+Epoch 6/40 batch 300/474 loss=0.0031
+Epoch 6/40 batch 350/474 loss=0.0013
+Epoch 6/40 batch 400/474 loss=0.0018
+Epoch 6/40 batch 450/474 loss=0.0121
+Epoch 6/40 batch 474/474 loss=0.0245
+Epoch 6/40 loss=0.0251 acc=0.9968
+Epoch 7/40 batch 1/474 loss=0.0016
+Epoch 7/40 batch 50/474 loss=0.0020
+Epoch 7/40 batch 100/474 loss=0.0026
+Epoch 7/40 batch 150/474 loss=0.0011
+Epoch 7/40 batch 200/474 loss=0.0063
+Epoch 7/40 batch 250/474 loss=0.0138
+Epoch 7/40 batch 300/474 loss=0.0039
+Epoch 7/40 batch 350/474 loss=0.0021
+Epoch 7/40 batch 400/474 loss=0.0010
+Epoch 7/40 batch 450/474 loss=0.0014
+Epoch 7/40 batch 474/474 loss=0.0173
+Epoch 7/40 loss=0.0092 acc=0.9995
+Epoch 8/40 batch 1/474 loss=0.0023
+Epoch 8/40 batch 50/474 loss=0.0003
+Epoch 8/40 batch 100/474 loss=0.0709
+Epoch 8/40 batch 150/474 loss=0.0443
+Epoch 8/40 batch 200/474 loss=0.0011
+Epoch 8/40 batch 250/474 loss=0.0037
+Epoch 8/40 batch 300/474 loss=0.0075
+Epoch 8/40 batch 350/474 loss=0.0005
+Epoch 8/40 batch 400/474 loss=0.0073
+Epoch 8/40 batch 450/474 loss=0.0035
+Epoch 8/40 batch 474/474 loss=0.0912
+Epoch 8/40 loss=0.0280 acc=0.9953
+Epoch 9/40 batch 1/474 loss=0.0071
+Epoch 9/40 batch 50/474 loss=0.0029
+Epoch 9/40 batch 100/474 loss=0.0040
+Epoch 9/40 batch 150/474 loss=0.0003
+Epoch 9/40 batch 200/474 loss=0.0005
+Epoch 9/40 batch 250/474 loss=0.0007
+Epoch 9/40 batch 300/474 loss=0.0005
+Epoch 9/40 batch 350/474 loss=0.0003
+Epoch 9/40 batch 400/474 loss=0.0557
+Epoch 9/40 batch 450/474 loss=0.0208
+Epoch 9/40 batch 474/474 loss=0.0380
+Epoch 9/40 loss=0.0130 acc=0.9995
+Epoch 10/40 batch 1/474 loss=0.0014
+Epoch 10/40 batch 50/474 loss=0.0178
+Epoch 10/40 batch 100/474 loss=0.0146
+Epoch 10/40 batch 150/474 loss=0.0019
+Epoch 10/40 batch 200/474 loss=0.0098
+Epoch 10/40 batch 250/474 loss=0.0006
+Epoch 10/40 batch 300/474 loss=0.0001
+Epoch 10/40 batch 350/474 loss=0.1501
+Epoch 10/40 batch 400/474 loss=0.0028
+Epoch 10/40 batch 450/474 loss=0.0011
+Epoch 10/40 batch 474/474 loss=0.9925
+Epoch 10/40 loss=0.0175 acc=0.9995
+Epoch 11/40 batch 1/474 loss=0.4159
+Epoch 11/40 batch 50/474 loss=0.0339
+Epoch 11/40 batch 100/474 loss=0.0047
+Epoch 11/40 batch 150/474 loss=0.1155
+Epoch 11/40 batch 200/474 loss=0.0016
+Epoch 11/40 batch 250/474 loss=0.0005
+Epoch 11/40 batch 300/474 loss=0.0004
+Epoch 11/40 batch 350/474 loss=0.0003
+Epoch 11/40 batch 400/474 loss=0.0012
+Epoch 11/40 batch 450/474 loss=0.0023
+Epoch 11/40 batch 474/474 loss=0.0066
+Epoch 11/40 loss=0.0152 acc=0.9989
+Epoch 12/40 batch 1/474 loss=0.0239
+Epoch 12/40 batch 50/474 loss=0.0001
+Epoch 12/40 batch 100/474 loss=0.0015
+Epoch 12/40 batch 150/474 loss=0.0004
+Epoch 12/40 batch 200/474 loss=0.0010
+Epoch 12/40 batch 250/474 loss=0.0004
+Epoch 12/40 batch 300/474 loss=0.0814
+Epoch 12/40 batch 350/474 loss=0.0010
+Epoch 12/40 batch 400/474 loss=0.0018
+Epoch 12/40 batch 450/474 loss=0.0005
+Epoch 12/40 batch 474/474 loss=0.0282
+Epoch 12/40 loss=0.0070 acc=0.9989
+Epoch 13/40 batch 1/474 loss=0.0003
+Epoch 13/40 batch 50/474 loss=0.0001
+Epoch 13/40 batch 100/474 loss=0.0002
+Epoch 13/40 batch 150/474 loss=0.0012
+Epoch 13/40 batch 200/474 loss=0.0016
+Epoch 13/40 batch 250/474 loss=0.0010
+Epoch 13/40 batch 300/474 loss=0.0018
+Epoch 13/40 batch 350/474 loss=0.0003
+Epoch 13/40 batch 400/474 loss=0.0003
+Epoch 13/40 batch 450/474 loss=0.0008
+Epoch 13/40 batch 474/474 loss=0.0124
+Epoch 13/40 loss=0.0054 acc=1.0000
+Epoch 14/40 batch 1/474 loss=0.0003
+Epoch 14/40 batch 50/474 loss=0.0000
+Epoch 14/40 batch 100/474 loss=0.0001
+Epoch 14/40 batch 150/474 loss=0.0005
+Epoch 14/40 batch 200/474 loss=0.0006
+Epoch 14/40 batch 250/474 loss=0.0001
+Epoch 14/40 batch 300/474 loss=0.0007
+Epoch 14/40 batch 350/474 loss=0.0024
+Epoch 14/40 batch 400/474 loss=0.0003
+Epoch 14/40 batch 450/474 loss=0.0013
+Epoch 14/40 batch 474/474 loss=0.0066
+Epoch 14/40 loss=0.0026 acc=0.9995
+Epoch 15/40 batch 1/474 loss=0.0002
+Epoch 15/40 batch 50/474 loss=0.0009
+Epoch 15/40 batch 100/474 loss=0.0003
+Epoch 15/40 batch 150/474 loss=0.0013
+Epoch 15/40 batch 200/474 loss=0.0003
+Epoch 15/40 batch 250/474 loss=0.0025
+Epoch 15/40 batch 300/474 loss=0.0010
+Epoch 15/40 batch 350/474 loss=0.0005
+Epoch 15/40 batch 400/474 loss=0.0024
+Epoch 15/40 batch 450/474 loss=0.0335
+Epoch 15/40 batch 474/474 loss=0.1385
+Epoch 15/40 loss=0.0061 acc=0.9921
+Epoch 16/40 batch 1/474 loss=0.0005
+Epoch 16/40 batch 50/474 loss=0.0021
+Epoch 16/40 batch 100/474 loss=0.0021
+Epoch 16/40 batch 150/474 loss=0.0007
+Epoch 16/40 batch 200/474 loss=0.0003
+Epoch 16/40 batch 250/474 loss=0.0039
+Epoch 16/40 batch 300/474 loss=0.0003
+Epoch 16/40 batch 350/474 loss=0.0003
+Epoch 16/40 batch 400/474 loss=0.0123
+Epoch 16/40 batch 450/474 loss=0.0003
+Epoch 16/40 batch 474/474 loss=0.0210
+Epoch 16/40 loss=0.0184 acc=1.0000
+Epoch 17/40 batch 1/474 loss=0.0134
+Epoch 17/40 batch 50/474 loss=0.0021
+Epoch 17/40 batch 100/474 loss=0.0077
+Epoch 17/40 batch 150/474 loss=0.0093
+Epoch 17/40 batch 200/474 loss=0.0002
+Epoch 17/40 batch 250/474 loss=0.0006
+Epoch 17/40 batch 300/474 loss=0.0704
+Epoch 17/40 batch 350/474 loss=0.0040
+Epoch 17/40 batch 400/474 loss=0.0029
+Epoch 17/40 batch 450/474 loss=0.0001
+Epoch 17/40 batch 474/474 loss=0.0466
+Epoch 17/40 loss=0.0058 acc=0.9979
+Epoch 18/40 batch 1/474 loss=0.0000
+Epoch 18/40 batch 50/474 loss=0.0001
+Epoch 18/40 batch 100/474 loss=0.0000
+Epoch 18/40 batch 150/474 loss=0.0002
+Epoch 18/40 batch 200/474 loss=0.0001
+Epoch 18/40 batch 250/474 loss=0.0001
+Epoch 18/40 batch 300/474 loss=0.0000
+Epoch 18/40 batch 350/474 loss=0.0000
+Epoch 18/40 batch 400/474 loss=0.0001
+Epoch 18/40 batch 450/474 loss=0.0001
+Epoch 18/40 batch 474/474 loss=0.0226
+Epoch 18/40 loss=0.0013 acc=0.9815
+Epoch 19/40 batch 1/474 loss=0.0005
+Epoch 19/40 batch 50/474 loss=0.0004
+Epoch 19/40 batch 100/474 loss=0.0002
+Epoch 19/40 batch 150/474 loss=0.0001
+Epoch 19/40 batch 200/474 loss=0.0006
+Epoch 19/40 batch 250/474 loss=0.0001
+Epoch 19/40 batch 300/474 loss=0.0001
+Epoch 19/40 batch 350/474 loss=0.0001
+Epoch 19/40 batch 400/474 loss=0.0001
+Epoch 19/40 batch 450/474 loss=0.0002
+Epoch 19/40 batch 474/474 loss=0.0688
+Epoch 19/40 loss=0.0034 acc=1.0000
+Epoch 20/40 batch 1/474 loss=0.0001
+Epoch 20/40 batch 50/474 loss=0.0001
+Epoch 20/40 batch 100/474 loss=0.0001
+Epoch 20/40 batch 150/474 loss=0.0023
+Epoch 20/40 batch 200/474 loss=0.0022
+Epoch 20/40 batch 250/474 loss=0.0010
+Epoch 20/40 batch 300/474 loss=0.0001
+Epoch 20/40 batch 350/474 loss=0.0000
+Epoch 20/40 batch 400/474 loss=0.0003
+Epoch 20/40 batch 450/474 loss=0.0000
+Epoch 20/40 batch 474/474 loss=0.0818
+Epoch 20/40 loss=0.0006 acc=1.0000
+Epoch 21/40 batch 1/474 loss=0.0001
+Epoch 21/40 batch 50/474 loss=0.0001
+Epoch 21/40 batch 100/474 loss=0.0002
+Epoch 21/40 batch 150/474 loss=0.0002
+Epoch 21/40 batch 200/474 loss=0.0005
+Epoch 21/40 batch 250/474 loss=0.0000
+Epoch 21/40 batch 300/474 loss=0.0000
+Epoch 21/40 batch 350/474 loss=0.0001
+Epoch 21/40 batch 400/474 loss=0.0008
+Epoch 21/40 batch 450/474 loss=0.0001
+Epoch 21/40 batch 474/474 loss=0.3939
+Epoch 21/40 loss=0.0022 acc=1.0000
+Epoch 22/40 batch 1/474 loss=0.0000
+Epoch 22/40 batch 50/474 loss=0.0051
+Epoch 22/40 batch 100/474 loss=0.0002
+Epoch 22/40 batch 150/474 loss=0.0000
+Epoch 22/40 batch 200/474 loss=0.0005
+Epoch 22/40 batch 250/474 loss=0.0205
+Epoch 22/40 batch 300/474 loss=0.0001
+Epoch 22/40 batch 350/474 loss=0.0002
+Epoch 22/40 batch 400/474 loss=0.0001
+Epoch 22/40 batch 450/474 loss=0.0038
+Epoch 22/40 batch 474/474 loss=0.0045
+Epoch 22/40 loss=0.0093 acc=1.0000
+Epoch 23/40 batch 1/474 loss=0.0000
+Epoch 23/40 batch 50/474 loss=0.0001
+Epoch 23/40 batch 100/474 loss=0.0000
+Epoch 23/40 batch 150/474 loss=0.0001
+Epoch 23/40 batch 200/474 loss=0.0004
+Epoch 23/40 batch 250/474 loss=0.0003
+Epoch 23/40 batch 300/474 loss=0.0001
+Epoch 23/40 batch 350/474 loss=0.0000
+Epoch 23/40 batch 400/474 loss=0.0021
+Epoch 23/40 batch 450/474 loss=0.0000
+Epoch 23/40 batch 474/474 loss=0.0035
+Epoch 23/40 loss=0.0010 acc=1.0000
+Epoch 24/40 batch 1/474 loss=0.0004
+Epoch 24/40 batch 50/474 loss=0.0001
+Epoch 24/40 batch 100/474 loss=0.0001
+Epoch 24/40 batch 150/474 loss=0.0001
+Epoch 24/40 batch 200/474 loss=0.0000
+Epoch 24/40 batch 250/474 loss=0.0000
+Epoch 24/40 batch 300/474 loss=0.0003
+Epoch 24/40 batch 350/474 loss=0.0000
+Epoch 24/40 batch 400/474 loss=0.0066
+Epoch 24/40 batch 450/474 loss=0.0001
+Epoch 24/40 batch 474/474 loss=0.0395
+Epoch 24/40 loss=0.0006 acc=1.0000
+Epoch 25/40 batch 1/474 loss=0.0000
+Epoch 25/40 batch 50/474 loss=0.0048
+Epoch 25/40 batch 100/474 loss=0.0000
+Epoch 25/40 batch 150/474 loss=0.0004
+Epoch 25/40 batch 200/474 loss=0.0023
+Epoch 25/40 batch 250/474 loss=0.0000
+Epoch 25/40 batch 300/474 loss=0.0000
+Epoch 25/40 batch 350/474 loss=0.0007
+Epoch 25/40 batch 400/474 loss=0.0003
+Epoch 25/40 batch 450/474 loss=0.0000
+Epoch 25/40 batch 474/474 loss=5.0276
+Epoch 25/40 loss=0.0117 acc=1.0000
+Epoch 26/40 batch 1/474 loss=0.0000
+Epoch 26/40 batch 50/474 loss=0.0001
+Epoch 26/40 batch 100/474 loss=0.0010
+Epoch 26/40 batch 150/474 loss=0.0003
+Epoch 26/40 batch 200/474 loss=0.0001
+Epoch 26/40 batch 250/474 loss=0.0000
+Epoch 26/40 batch 300/474 loss=0.0002
+Epoch 26/40 batch 350/474 loss=0.0001
+Epoch 26/40 batch 400/474 loss=0.0011
+Epoch 26/40 batch 450/474 loss=0.0001
+Epoch 26/40 batch 474/474 loss=4.2816
+Epoch 26/40 loss=0.0121 acc=0.9995
+Epoch 27/40 batch 1/474 loss=0.0072
+Epoch 27/40 batch 50/474 loss=0.0011
+Epoch 27/40 batch 100/474 loss=0.0015
+Epoch 27/40 batch 150/474 loss=0.0001
+Epoch 27/40 batch 200/474 loss=0.0005
+Epoch 27/40 batch 250/474 loss=0.0001
+Epoch 27/40 batch 300/474 loss=0.0000
+Epoch 27/40 batch 350/474 loss=0.0001
+Epoch 27/40 batch 400/474 loss=0.0009
+Epoch 27/40 batch 450/474 loss=0.0001
+Epoch 27/40 batch 474/474 loss=0.0090
+Epoch 27/40 loss=0.0021 acc=1.0000
+Epoch 28/40 batch 1/474 loss=0.0002
+Epoch 28/40 batch 50/474 loss=0.0014
+Epoch 28/40 batch 100/474 loss=0.0008
+Epoch 28/40 batch 150/474 loss=0.0000
+Epoch 28/40 batch 200/474 loss=0.0001
+Epoch 28/40 batch 250/474 loss=0.0001
+Epoch 28/40 batch 300/474 loss=0.0015
+Epoch 28/40 batch 350/474 loss=0.0001
+Epoch 28/40 batch 400/474 loss=0.0001
+Epoch 28/40 batch 450/474 loss=0.0000
+Epoch 28/40 batch 474/474 loss=1.8887
+Epoch 28/40 loss=0.0047 acc=1.0000
+Epoch 29/40 batch 1/474 loss=0.0004
+Epoch 29/40 batch 50/474 loss=0.0002
+Epoch 29/40 batch 100/474 loss=0.0004
+Epoch 29/40 batch 150/474 loss=0.0010
+Epoch 29/40 batch 200/474 loss=0.0000
+Epoch 29/40 batch 250/474 loss=0.0010
+Epoch 29/40 batch 300/474 loss=0.0001
+Epoch 29/40 batch 350/474 loss=0.0004
+Epoch 29/40 batch 400/474 loss=0.0000
+Epoch 29/40 batch 450/474 loss=0.0000
+Epoch 29/40 batch 474/474 loss=6.3031
+Epoch 29/40 loss=0.0138 acc=1.0000
+Epoch 30/40 batch 1/474 loss=0.0000
+Epoch 30/40 batch 50/474 loss=0.0001
+Epoch 30/40 batch 100/474 loss=0.0001
+Epoch 30/40 batch 150/474 loss=0.0005
+Epoch 30/40 batch 200/474 loss=0.0001
+Epoch 30/40 batch 250/474 loss=0.0022
+Epoch 30/40 batch 300/474 loss=0.0004
+Epoch 30/40 batch 350/474 loss=0.0001
+Epoch 30/40 batch 400/474 loss=0.0000
+Epoch 30/40 batch 450/474 loss=0.0002
+Epoch 30/40 batch 474/474 loss=0.0825
+Epoch 30/40 loss=0.0012 acc=1.0000
+Epoch 31/40 batch 1/474 loss=0.0006
+Epoch 31/40 batch 50/474 loss=0.0001
+Epoch 31/40 batch 100/474 loss=0.0002
+Epoch 31/40 batch 150/474 loss=0.0000
+Epoch 31/40 batch 200/474 loss=0.0001
+Epoch 31/40 batch 250/474 loss=0.0000
+Epoch 31/40 batch 300/474 loss=0.0000
+Epoch 31/40 batch 350/474 loss=0.0001
+Epoch 31/40 batch 400/474 loss=0.0000
+Epoch 31/40 batch 450/474 loss=0.0002
+Epoch 31/40 batch 474/474 loss=0.0504
+Epoch 31/40 loss=0.0006 acc=1.0000
+Epoch 32/40 batch 1/474 loss=0.0000
+Epoch 32/40 batch 50/474 loss=0.0001
+Epoch 32/40 batch 100/474 loss=0.0002
+Epoch 32/40 batch 150/474 loss=0.0002
+Epoch 32/40 batch 200/474 loss=0.0000
+Epoch 32/40 batch 250/474 loss=0.0001
+Epoch 32/40 batch 300/474 loss=0.0000
+Epoch 32/40 batch 350/474 loss=0.0008
+Epoch 32/40 batch 400/474 loss=0.0000
+Epoch 32/40 batch 450/474 loss=0.0000
+Epoch 32/40 batch 474/474 loss=0.0124
+Epoch 32/40 loss=0.0006 acc=1.0000
+Epoch 33/40 batch 1/474 loss=0.0001
+Epoch 33/40 batch 50/474 loss=0.0000
+Epoch 33/40 batch 100/474 loss=0.0001
+Epoch 33/40 batch 150/474 loss=0.0006
+Epoch 33/40 batch 200/474 loss=0.0000
+Epoch 33/40 batch 250/474 loss=0.0009
+Epoch 33/40 batch 300/474 loss=0.0000
+Epoch 33/40 batch 350/474 loss=0.0003
+Epoch 33/40 batch 400/474 loss=0.0001
+Epoch 33/40 batch 450/474 loss=0.0004
+Epoch 33/40 batch 474/474 loss=0.0583
+Epoch 33/40 loss=0.0005 acc=1.0000
+Epoch 34/40 batch 1/474 loss=0.0001
+Epoch 34/40 batch 50/474 loss=0.0000
+Epoch 34/40 batch 100/474 loss=0.0001
+Epoch 34/40 batch 150/474 loss=0.0003
+Epoch 34/40 batch 200/474 loss=0.0000
+Epoch 34/40 batch 250/474 loss=0.0001
+Epoch 34/40 batch 300/474 loss=0.0004
+Epoch 34/40 batch 350/474 loss=0.0003
+Epoch 34/40 batch 400/474 loss=0.0001
+Epoch 34/40 batch 450/474 loss=0.0001
+Epoch 34/40 batch 474/474 loss=0.0059
+Epoch 34/40 loss=0.0003 acc=1.0000
+Epoch 35/40 batch 1/474 loss=0.0000
+Epoch 35/40 batch 50/474 loss=0.0000
+Epoch 35/40 batch 100/474 loss=0.0000
+Epoch 35/40 batch 150/474 loss=0.0001
+Epoch 35/40 batch 200/474 loss=0.0001
+Epoch 35/40 batch 250/474 loss=0.0000
+Epoch 35/40 batch 300/474 loss=0.0010
+Epoch 35/40 batch 350/474 loss=0.0001
+Epoch 35/40 batch 400/474 loss=0.0005
+Epoch 35/40 batch 450/474 loss=0.0001
+Epoch 35/40 batch 474/474 loss=0.0024
+Epoch 35/40 loss=0.0004 acc=1.0000
+Epoch 36/40 batch 1/474 loss=0.0000
+Epoch 36/40 batch 50/474 loss=0.0000
+Epoch 36/40 batch 100/474 loss=0.0000
+Epoch 36/40 batch 150/474 loss=0.0000
+Epoch 36/40 batch 200/474 loss=0.0001
+Epoch 36/40 batch 250/474 loss=0.0000
+Epoch 36/40 batch 300/474 loss=0.0003
+Epoch 36/40 batch 350/474 loss=0.0000
+Epoch 36/40 batch 400/474 loss=0.0000
+Epoch 36/40 batch 450/474 loss=0.0000
+Epoch 36/40 batch 474/474 loss=2.8808
+Epoch 36/40 loss=0.0063 acc=1.0000
+Epoch 37/40 batch 1/474 loss=0.0000
+Epoch 37/40 batch 50/474 loss=0.0000
+Epoch 37/40 batch 100/474 loss=0.0001
+Epoch 37/40 batch 150/474 loss=0.0001
+Epoch 37/40 batch 200/474 loss=0.0002
+Epoch 37/40 batch 250/474 loss=0.0005
+Epoch 37/40 batch 300/474 loss=0.0000
+Epoch 37/40 batch 350/474 loss=0.0000
+Epoch 37/40 batch 400/474 loss=0.0009
+Epoch 37/40 batch 450/474 loss=0.0000
+Epoch 37/40 batch 474/474 loss=0.0035
+Epoch 37/40 loss=0.0002 acc=1.0000
+Epoch 38/40 batch 1/474 loss=0.0028
+Epoch 38/40 batch 50/474 loss=0.0002
+Epoch 38/40 batch 100/474 loss=0.0000
+Epoch 38/40 batch 150/474 loss=0.0010
+Epoch 38/40 batch 200/474 loss=0.0005
+Epoch 38/40 batch 250/474 loss=0.0000
+Epoch 38/40 batch 300/474 loss=0.0000
+Epoch 38/40 batch 350/474 loss=0.0000
+Epoch 38/40 batch 400/474 loss=0.0000
+Epoch 38/40 batch 450/474 loss=0.0000
+Epoch 38/40 batch 474/474 loss=0.0029
+Epoch 38/40 loss=0.0002 acc=1.0000
+Epoch 39/40 batch 1/474 loss=0.0014
+Epoch 39/40 batch 50/474 loss=0.0001
+Epoch 39/40 batch 100/474 loss=0.0003
+Epoch 39/40 batch 150/474 loss=0.0000
+Epoch 39/40 batch 200/474 loss=0.0000
+Epoch 39/40 batch 250/474 loss=0.0000
+Epoch 39/40 batch 300/474 loss=0.0000
+Epoch 39/40 batch 350/474 loss=0.0001
+Epoch 39/40 batch 400/474 loss=0.0001
+Epoch 39/40 batch 450/474 loss=0.0001
+Epoch 39/40 batch 474/474 loss=0.0296
+Epoch 39/40 loss=0.0003 acc=1.0000
+Epoch 40/40 batch 1/474 loss=0.0000
+Epoch 40/40 batch 50/474 loss=0.0002
+Epoch 40/40 batch 100/474 loss=0.0000
+Epoch 40/40 batch 150/474 loss=0.0000
+Epoch 40/40 batch 200/474 loss=0.0001
+Epoch 40/40 batch 250/474 loss=0.0000
+Epoch 40/40 batch 300/474 loss=0.0004
+Epoch 40/40 batch 350/474 loss=0.0000
+Epoch 40/40 batch 400/474 loss=0.0009
+Epoch 40/40 batch 450/474 loss=0.0000
+Epoch 40/40 batch 474/474 loss=0.0067
+Epoch 40/40 loss=0.0002 acc=1.0000
+Best accuracy: 1.0000 saved to /workspace/helios/ml/artifacts/mstar/best.pth
+
+============================================================
+STEP: yolo
+============================================================
+Creating new Ultralytics Settings v0.0.6 file ✅ 
+View Ultralytics Settings with 'yolo settings' or at '/root/.config/Ultralytics/settings.json'
+Update Settings with 'yolo settings key=value', i.e. 'yolo settings runs_dir=path/to/dir'. For help see https://docs.ultralytics.com/quickstart/#ultralytics-settings.
+YOLO training: model=yolov8s-obb.pt data=/workspace/helios/ml/configs/dota_ultralytics.yaml epochs=60 batch=4 imgsz=640
+
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolov8s-obb.pt to 'yolov8s-obb.pt': 79% ━━━━━━━━━╸── 17.7/22.2MB 176.9MB/s 0.1s<0.0s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolov8s-obb.pt to 'yolov8s-obb.pt': 100% ━━━━━━━━━━━━ 22.2MB 154.2MB/s 0.1s
+Ultralytics 8.4.72 🚀 Python-3.12.13 torch-2.5.1+cu121 CUDA:0 (NVIDIA A100-SXM4-40GB, 40442MiB)
+[34m[1mengine/trainer: [0magnostic_nms=False, amp=True, angle=1.0, augment=False, auto_augment=randaugment, batch=4, bgr=0.0, box=7.5, cache=False, cfg=None, classes=None, close_mosaic=10, cls=0.5, cls_pw=0.0, compile=False, conf=None, copy_paste=0.0, copy_paste_mode=flip, cos_lr=True, cutmix=0.0, data=/workspace/helios/ml/configs/dota_ultralytics.yaml, degrees=0.0, deterministic=True, device=None, dfl=1.5, dnn=False, dropout=0.0, dynamic=False, embed=None, end2end=None, epochs=60, erasing=0.4, exist_ok=True, fliplr=0.5, flipud=0.0, format=torchscript, fraction=1.0, freeze=None, half=False, hsv_h=0.015, hsv_s=0.7, hsv_v=0.4, imgsz=640, int8=False, iou=0.7, keras=False, kobj=1.0, line_width=None, lr0=0.001, lrf=0.01, mask_ratio=4, max_det=300, mixup=0.0, mode=train, model=yolov8s-obb.pt, momentum=0.937, mosaic=1.0, multi_scale=0.0, name=train, nbs=64, nms=False, opset=None, optimize=False, optimizer=auto, overlap_mask=True, patience=100, perspective=0.0, plots=True, pose=12.0, pretrained=True, profile=False, project=/workspace/helios/ml/artifacts/yolo, rect=False, resume=False, retina_masks=False, rle=1.0, save=True, save_conf=False, save_crop=False, save_dir=/workspace/helios/ml/artifacts/yolo/train, save_frames=False, save_json=False, save_period=-1, save_txt=False, scale=0.5, seed=0, shear=0.0, show=False, show_boxes=True, show_conf=True, show_labels=True, simplify=True, single_cls=False, source=None, split=val, stream_buffer=False, task=obb, time=None, tracker=botsort.yaml, translate=0.1, val=True, verbose=True, vid_stride=1, visualize=False, warmup_bias_lr=0.1, warmup_epochs=3, warmup_momentum=0.8, weight_decay=0.0005, workers=8, workspace=None
+
+Traceback (most recent call last):
+  File "/workspace/helios/.venv-train/lib/python3.12/site-packages/ultralytics/engine/trainer.py", line 722, in get_dataset
+    data = check_det_dataset(self.args.data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/helios/.venv-train/lib/python3.12/site-packages/ultralytics/data/utils.py", line 531, in check_det_dataset
+    raise FileNotFoundError(m)
+FileNotFoundError: Dataset '/workspace/helios/ml/configs/dota_ultralytics.yaml' images not found, missing path '/workspace/datasets/dota/DOTAv1/images/val'
+Note dataset download directory is '/workspace/datasets'. You can update this in '/root/.config/Ultralytics/settings.json'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/workspace/helios/ml/scripts/train_yolov8.py", line 129, in <module>
+    main()
+  File "/workspace/helios/ml/scripts/train_yolov8.py", line 96, in main
+    results = model.train(
+              ^^^^^^^^^^^^
+  File "/workspace/helios/.venv-train/lib/python3.12/site-packages/ultralytics/engine/model.py", line 783, in train
+    self.trainer = (trainer or self._smart_load("trainer"))(overrides=args, _callbacks=self.callbacks)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/helios/.venv-train/lib/python3.12/site-packages/ultralytics/models/yolo/obb/train.py", line 47, in __init__
+    super().__init__(cfg, overrides, _callbacks)
+  File "/workspace/helios/.venv-train/lib/python3.12/site-packages/ultralytics/models/yolo/detect/train.py", line 63, in __init__
+    super().__init__(cfg, overrides, _callbacks)
+  File "/workspace/helios/.venv-train/lib/python3.12/site-packages/ultralytics/engine/trainer.py", line 186, in __init__
+    self.data = self.get_dataset()
+                ^^^^^^^^^^^^^^^^^^
+  File "/workspace/helios/.venv-train/lib/python3.12/site-packages/ultralytics/engine/trainer.py", line 726, in get_dataset
+    raise RuntimeError(emojis(f"Dataset '{clean_url(self.args.data)}' error ❌ {e}")) from e
+RuntimeError: Dataset '/workspace/helios/ml/configs/dota_ultralytics.yaml' error ❌ Dataset '/workspace/helios/ml/configs/dota_ultralytics.yaml' images not found, missing path '/workspace/datasets/dota/DOTAv1/images/val'
+Note dataset download directory is '/workspace/datasets'. You can update this in '/root/.config/Ultralytics/settings.json'
+
+FAILED (exit 1): /workspace/helios/.venv-train/bin/python -u /workspace/helios/ml/scripts/train_yolov8.py
