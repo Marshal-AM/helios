@@ -15,8 +15,45 @@ import yaml
 REPO_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO_ROOT))
 
-from ml.paths import ARTIFACTS_DIR, CONFIGS_DIR  # noqa: E402
+from ml.paths import ARTIFACTS_DIR, CONFIGS_DIR, DATASETS_DIR  # noqa: E402
 from ml.scripts.train_log import setup_train_log  # noqa: E402
+
+
+def prepare_data_yaml(config_path: Path) -> Path:
+    """Resolve DOTA paths to absolute locations under ml/datasets/."""
+    with config_path.open(encoding="utf-8") as f:
+        cfg = yaml.safe_load(f)
+
+    rel = cfg.get("path", "ml/datasets/dota/DOTAv1")
+    dataset_root = Path(rel)
+    if not dataset_root.is_absolute():
+        candidates = [
+            REPO_ROOT / rel,
+            DATASETS_DIR / "dota" / "DOTAv1",
+            config_path.parent / rel,
+        ]
+        dataset_root = next((p.resolve() for p in candidates if p.exists()), (REPO_ROOT / rel).resolve())
+
+    missing = []
+    for split in ("train", "val", "test"):
+        split_dir = dataset_root / cfg[split]
+        if not split_dir.exists():
+            missing.append(str(split_dir))
+    if missing:
+        raise FileNotFoundError(
+            "DOTA images not found. Expected Ultralytics DOTA v1 layout under "
+            f"{DATASETS_DIR / 'dota' / 'DOTAv1'}.\n"
+            "Missing:\n  " + "\n  ".join(missing) + "\n"
+            "Fix: extract datasets into ml/datasets/ and run ml/scripts/organize_datasets.py"
+        )
+
+    cfg["path"] = str(dataset_root)
+    out_path = ARTIFACTS_DIR / "yolo" / "dota_resolved.yaml"
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    with out_path.open("w", encoding="utf-8") as f:
+        yaml.safe_dump(cfg, f, sort_keys=False)
+    print(f"YOLO dataset root: {dataset_root}", flush=True)
+    return out_path
 
 
 def save_training_charts(results_csv: Path, out_dir: Path, model, data_yaml: Path) -> None:
@@ -93,8 +130,10 @@ def main() -> None:
     )
     model = YOLO(model_name)
 
+    data_yaml = prepare_data_yaml(args.data.resolve())
+
     results = model.train(
-        data=str(args.data.resolve()),
+        data=str(data_yaml),
         epochs=args.epochs,
         imgsz=args.imgsz,
         batch=args.batch,
@@ -118,7 +157,7 @@ def main() -> None:
 
     results_csv = Path(results.save_dir) / "results.csv"
     if results_csv.exists():
-        save_training_charts(results_csv, out_dir, model, args.data)
+        save_training_charts(results_csv, out_dir, model, data_yaml)
     else:
         print("Warning: results.csv not found; charts may be incomplete", flush=True)
 
