@@ -12,6 +12,7 @@ from sqlalchemy.orm import Session
 from helios_common.clients.copernicus import CopernicusClient
 from helios_common.clients.planet import PlanetClient
 from helios_common.config import settings
+from helios_common.events import SCENE_PROCESSING, publish_event
 from helios_common.models import Aoi, Scene
 from helios_common.paths import scene_raw_dir
 from scene_watcher.download import download_copernicus_scene, download_planet_scene
@@ -31,6 +32,8 @@ def _known_external_ids(session: Session) -> set[str]:
 
 
 def _enqueue_preprocessing(scene_id: int) -> None:
+    from helios_common.celery_app import celery_app
+
     celery_app.send_task(
         "preprocessor.tasks.preprocess_scene",
         args=[scene_id],
@@ -61,6 +64,7 @@ def _register_and_download_copernicus(
     session.commit()
 
     _enqueue_preprocessing(scene.id)
+    publish_event(SCENE_PROCESSING, {"aoi_id": aoi.id, "scene_id": scene.id})
     log_event(
         logger,
         "scene_discovered",
@@ -97,6 +101,7 @@ def _register_and_download_planet(
     session.commit()
 
     _enqueue_preprocessing(scene.id)
+    publish_event(SCENE_PROCESSING, {"aoi_id": aoi.id, "scene_id": scene.id})
     log_event(
         logger,
         "scene_discovered",

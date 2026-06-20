@@ -47,5 +47,15 @@ class Settings(BaseSettings):
     ml_data_dir: str = "./ml/datasets"
     yolo_model_size: str = "s"
 
+    # Phase 4 alert thresholds
+    movement_alert_threshold_m: float = 500.0
+    alert_dedup_hours: int = 6
+    density_surge_multiplier: float = 2.0
+    formation_change_pct: float = 0.30
+    revisit_interval_high_minutes: int = 30
+    revisit_interval_medium_minutes: int = 120
+    revisit_interval_low_minutes: int = 120
+    jwt_expire_hours: int = 24
+
 
 settings = Settings()

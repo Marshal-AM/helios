@@ -11,6 +11,17 @@ from scene_watcher.scene_discovery import discover_scenes_for_aoi
 logger = logging.getLogger(__name__)
 
 
+@celery_app.task(name="scene_watcher.tasks.poll_aoi")
+def poll_aoi(aoi_id: int) -> dict:
+    """Poll a single AOI (triggered after POST /aois)."""
+    with SyncSessionLocal() as session:
+        aoi = session.get(Aoi, aoi_id)
+        if not aoi:
+            return {"aoi_id": aoi_id, "error": "not_found"}
+        result = discover_scenes_for_aoi(session, aoi)
+    return result
+
+
 @celery_app.task(name="scene_watcher.tasks.poll_active_aois")
 def poll_active_aois(priority_filter: str = "medium") -> dict:
     """Scene Watcher — poll active AOIs via Copernicus STAC and Planet API."""

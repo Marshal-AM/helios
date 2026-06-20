@@ -331,6 +331,52 @@ curl http://localhost:8080/detections/1/gradcam
 - 3 Triton models ready; inference logs avg tile time <500ms
 - Grad-CAM PNG served via `GET /detections/{id}/gradcam`
 
+## Phase 4 — FastAPI Backend, WebSocket & Alerts
+
+Phase 4 exposes the operational API consumed by the Phase 5 globe.
+
+### Auth
+
+```bash
+# Issue JWT (dev/demo)
+curl -X POST http://localhost:8080/auth/token -H "Content-Type: application/json" -d "{\"analyst_id\":\"demo\"}"
+
+# Use token on all REST routes
+curl -H "Authorization: Bearer $TOKEN" http://localhost:8080/aois
+```
+
+### REST endpoints
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET/POST/DELETE /aois` | AOI GeoJSON CRUD; POST triggers scene poll |
+| `GET /detections` | Filter by bbox, time, class, confidence |
+| `GET /detections/{id}/gradcam` | Grad-CAM PNG |
+| `GET /changes` | Change events with T1/T2 coords |
+| `GET /alerts` | Alerts with severity filters |
+| `PATCH /alerts/{id}/acknowledge` | Acknowledge alert |
+| `GET /scenes` | Scene catalogue per AOI |
+| `GET /export?format=pdf\|csv\|kml\|geojson` | Export detections |
+
+### WebSocket (`/ws?token=...`)
+
+Events: `detection_created`, `change_detected`, `alert_fired`, `scene_processing`, `scene_processing_complete`, `ping` (heartbeat every 30s; reply with `{"type":"pong"}`).
+
+Workers publish via Redis; FastAPI fans out to connected clients.
+
+### Alert types (Celery beat every 5 min)
+
+`new_object`, `disappearance`, `formation_change`, `movement_threshold`, `density_surge`, `no_coverage`
+
+### Verification
+
+```bash
+docker compose up -d --build fastapi alert-service
+python ml/scripts/seed_phase4_demo.py
+pytest backend/tests/test_phase4.py -q
+curl http://localhost:8080/health   # phase: 4
+```
+
 ## Next Phase
 
-Phase 4 implements full detection API, WebSocket alerts, and auth. See `docs/mvp.md`.
+Phase 5 implements the Next.js + CesiumJS 3D globe dashboard. See `docs/mvp.md`.

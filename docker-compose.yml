@@ -198,10 +198,13 @@ services:
       <<: *common-env
     volumes:
       - ./data:/data
+      - ./ml/artifacts:/ml/artifacts
     ports:
       - "8080:8000"
     depends_on:
       postgres:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     networks:
       - helios

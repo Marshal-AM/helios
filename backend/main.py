@@ -1,4 +1,9 @@
+import asyncio
+import json
+import logging
 import sys
+import threading
+from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI
@@ -8,9 +13,39 @@ from sqlalchemy import text
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "shared"))
 
 from helios_common.db import async_engine  # noqa: E402
-from routers import aois, alerts, changes, detections, export, scenes, ws  # noqa: E402
+from helios_common.events import subscribe_events  # noqa: E402
+from routers import aois, alerts, auth, changes, detections, export, scenes, ws  # noqa: E402
+from ws.manager import ws_manager  # noqa: E402
 
-app = FastAPI(title="Helios API", version="0.1.0")
+logger = logging.getLogger(__name__)
+_loop: asyncio.AbstractEventLoop | None = None
+
+
+def _redis_listener() -> None:
+    pubsub = subscribe_events()
+    for message in pubsub.listen():
+        if message["type"] != "message":
+            continue
+        try:
+            data = json.loads(message["data"])
+        except (json.JSONDecodeError, TypeError):
+            continue
+        if _loop and not _loop.is_closed():
+            asyncio.run_coroutine_threadsafe(ws_manager.broadcast(data), _loop)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    global _loop
+    _loop = asyncio.get_running_loop()
+    thread = threading.Thread(target=_redis_listener, daemon=True)
+    thread.start()
+    logger.info("Redis event listener started")
+    yield
+    _loop = None
+
+
+app = FastAPI(title="Helios API", version="0.4.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -20,6 +55,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(auth.router)
 app.include_router(aois.router)
 app.include_router(detections.router)
 app.include_router(changes.router)
@@ -37,11 +73,11 @@ async def health():
             await conn.execute(text("SELECT 1"))
             db_status = "connected"
     except Exception as exc:
-        return {"status": "degraded", "db": db_status, "error": str(exc)}
+        return {"status": "degraded", "db": db_status, "error": str(exc), "phase": 4}
 
-    return {"status": "ok", "db": db_status, "phase": 1}
+    return {"status": "ok", "db": db_status, "phase": 4, "ws_clients": ws_manager.count}
 
 
 @app.get("/")
 async def root():
-    return {"service": "helios-api", "phase": 1}
+    return {"service": "helios-api", "phase": 4}

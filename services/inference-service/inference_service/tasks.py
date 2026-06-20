@@ -9,6 +9,7 @@ from sqlalchemy import select
 from helios_common.celery_app import celery_app
 from helios_common.config import settings
 from helios_common.db import SyncSessionLocal
+from helios_common.events import DETECTION_CREATED, publish_event
 from helios_common.gradcam import save_gradcam_png
 from helios_common.models import Detection, Scene, SensorType
 from helios_common.paths import scene_tiles_dir
@@ -19,6 +20,8 @@ from helios_common.triton_client import (
     infer_yolo,
     nms_detections,
 )
+
+from helios_common.ws_payloads import detection_event_payload
 
 logger = logging.getLogger(__name__)
 
@@ -79,6 +82,7 @@ def _insert_yolo_detections(
             logger.warning("Grad-CAM failed detection_id=%s: %s", row.id, exc)
         row.detection_image_path = str(crop_path)
         ids.append(row.id)
+        publish_event(DETECTION_CREATED, detection_event_payload(row, scene))
     return ids
 
 
@@ -100,6 +104,7 @@ def _insert_mstar_detection(session, scene: Scene, tile_path: str, result: Mstar
     )
     session.add(row)
     session.flush()
+    publish_event(DETECTION_CREATED, detection_event_payload(row, scene))
     return row.id
 
 

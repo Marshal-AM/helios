@@ -35,6 +35,7 @@ celery_app.conf.update(
     },
     task_routes={
         "scene_watcher.tasks.poll_active_aois": {"queue": "scene_watch"},
+        "scene_watcher.tasks.poll_aoi": {"queue": "scene_watch"},
         "preprocessor.tasks.preprocess_scene": {"queue": "preprocessing"},
         "inference_service.tasks.run_inference": {"queue": "inference"},
         "change_detection.tasks.detect_changes": {"queue": "change_detection"},

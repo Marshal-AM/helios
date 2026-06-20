@@ -2,6 +2,7 @@ import logging
 
 from helios_common.celery_app import celery_app
 from helios_common.db import SyncSessionLocal
+from helios_common.events import SCENE_PROCESSING, SCENE_PROCESSING_COMPLETE, publish_event
 from helios_common.models import Aoi, Scene
 
 logger = logging.getLogger(__name__)
@@ -25,6 +26,7 @@ def preprocess_scene(self, scene_id: int) -> dict:
         if not aoi:
             raise ValueError(f"AOI {scene.aoi_id} not found for scene {scene_id}")
 
+        publish_event(SCENE_PROCESSING, {"aoi_id": scene.aoi_id, "scene_id": scene_id})
         logger.info("Starting preprocessing for scene_id=%s sensor=%s", scene_id, scene.sensor_type)
         from preprocessor.pipeline import run_preprocessing_pipeline
 
@@ -32,7 +34,10 @@ def preprocess_scene(self, scene_id: int) -> dict:
 
         scene.scene_path = str(processed_path)
         scene.processed = True
+        aoi_id = scene.aoi_id
         session.commit()
+
+    publish_event(SCENE_PROCESSING_COMPLETE, {"aoi_id": aoi_id, "scene_id": scene_id})
 
     celery_app.send_task(
         "inference_service.tasks.run_inference",

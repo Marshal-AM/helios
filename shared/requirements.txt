@@ -9,3 +9,6 @@ boto3==1.35.68
 httpx==0.28.1
 shapely==2.0.6
 python-dateutil==2.9.0.post0
+python-jose[cryptography]==3.3.0
+scikit-learn==1.5.2
+reportlab==4.2.5
