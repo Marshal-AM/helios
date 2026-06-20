@@ -1,0 +1,12 @@
+# Optional — only for ml/scripts/train_bit.py (OpenMMLab BIT).
+# Not used by train_all.py (which calls train_bit_simple.py).
+# Best on Linux with Python 3.10; often fails on Python 3.12.
+
+-r requirements-train.txt
+
+openmim>=0.3.9
+mmengine>=0.10.0
+mmcv>=2.1.0
+mmdet>=3.2.0
+mmsegmentation>=1.2.0
+open-cd>=0.1.0

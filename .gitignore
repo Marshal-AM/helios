@@ -51,3 +51,5 @@ datasets/
 .vscode/
 *.swp
 *.swo
+
+/ml/datasets.zip
