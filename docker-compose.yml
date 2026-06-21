@@ -215,6 +215,7 @@ services:
       dockerfile: frontend/Dockerfile
       args:
         NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8080}
+        NEXT_PUBLIC_CESIUM_ION_TOKEN: ${CESIUM_ION_TOKEN}
     container_name: helios-frontend
     ports:
       - "3000:3000"

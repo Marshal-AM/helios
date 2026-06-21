@@ -1,19 +1,27 @@
 {
   "name": "helios-frontend",
-  "version": "0.1.0",
+  "version": "0.5.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "prebuild": "node scripts/copy-cesium.js && node -e \"try{require('fs').rmSync('.next',{recursive:true,force:true})}catch(e){}\"",
+    "predev": "node scripts/copy-cesium.js",
+    "dev": "next dev -p 3001",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "cesium": "1.118.2",
+    "leaflet": "^1.9.4",
+    "leaflet-draw": "^1.0.4",
     "next": "14.2.18",
     "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "react-dom": "18.3.1",
+    "react-leaflet": "^4.2.1"
   },
   "devDependencies": {
+    "@types/leaflet": "^1.9.15",
+    "@types/leaflet-draw": "^1.0.11",
     "@types/node": "20.17.6",
     "@types/react": "18.3.12",
     "@types/react-dom": "18.3.1",

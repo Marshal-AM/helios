@@ -5,12 +5,16 @@ from __future__ import annotations
 import csv
 import io
 from datetime import datetime
+from pathlib import Path
 from typing import Any
 
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.units import inch
+from reportlab.platypus import Image as RLImage
 from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
+from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from services.queries import fetch_detection_rows, fetch_detections_geojson
@@ -54,8 +58,71 @@ async def export_detections(
     if fmt == "kml":
         return _export_kml(rows), "application/vnd.google-earth.kml+xml", "detections.kml"
     if fmt == "pdf":
-        return _export_pdf(rows), "application/pdf", "mission_report.pdf"
+        return await _export_pdf(session, rows, aoi_id=aoi_id), "application/pdf", "mission_report.pdf"
     raise ValueError(f"Unsupported format: {fmt}")
+
+
+async def _scene_preview_path(session: AsyncSession, aoi_id: int | None) -> Path | None:
+    if aoi_id is None:
+        return None
+    result = await session.execute(
+        text(
+            """
+            SELECT scene_path FROM scenes
+            WHERE aoi_id = :aoi_id AND scene_path IS NOT NULL
+            ORDER BY acquisition_timestamp DESC
+            LIMIT 1
+            """
+        ),
+        {"aoi_id": aoi_id},
+    )
+    row = result.first()
+    if not row or not row[0]:
+        return None
+    base = Path(row[0])
+    if base.is_dir():
+        for pattern in ("*.tif", "*.tiff", "*.png", "*.jpg"):
+            matches = sorted(base.glob(pattern))
+            if matches:
+                return matches[0]
+    elif base.is_file() and base.suffix.lower() in {".tif", ".tiff", ".png", ".jpg", ".jpeg"}:
+        return base
+    return None
+
+
+def _raster_to_png_bytes(path: Path) -> bytes | None:
+    try:
+        import numpy as np
+        from PIL import Image
+
+        try:
+            import rasterio
+            from rasterio.enums import Resampling
+
+            with rasterio.open(path) as src:
+                count = min(src.count, 3)
+                data = src.read(
+                    indexes=list(range(1, count + 1)),
+                    out_shape=(count, min(512, src.height), min(512, src.width)),
+                    resampling=Resampling.bilinear,
+                )
+                arr = np.transpose(data, (1, 2, 0))
+                if arr.dtype != np.uint8:
+                    arr = np.clip(arr, 0, 255).astype(np.uint8)
+                if arr.ndim == 2:
+                    arr = np.stack([arr, arr, arr], axis=-1)
+                elif arr.shape[2] == 1:
+                    arr = np.repeat(arr, 3, axis=2)
+                img = Image.fromarray(arr[:, :, :3])
+        except ImportError:
+            img = Image.open(path).convert("RGB")
+            img.thumbnail((512, 512))
+
+        buf = io.BytesIO()
+        img.save(buf, format="PNG")
+        return buf.getvalue()
+    except Exception:
+        return None
 
 
 def _export_csv(rows: list[dict[str, Any]]) -> bytes:
@@ -131,16 +198,40 @@ def _export_kml(rows: list[dict[str, Any]]) -> bytes:
     return "\n".join(lines).encode("utf-8")
 
 
-def _export_pdf(rows: list[dict[str, Any]]) -> bytes:
+async def _export_pdf(
+    session: AsyncSession,
+    rows: list[dict[str, Any]],
+    *,
+    aoi_id: int | None = None,
+) -> bytes:
     buf = io.BytesIO()
     doc = SimpleDocTemplate(buf, pagesize=letter)
     styles = getSampleStyleSheet()
     story = [
         Paragraph("Helios Mission Report", styles["Title"]),
         Spacer(1, 12),
+        Paragraph(f"Generated: {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}", styles["Normal"]),
+        Spacer(1, 6),
         Paragraph(f"Total detections: {len(rows)}", styles["Normal"]),
         Spacer(1, 12),
     ]
+
+    if aoi_id is not None:
+        aoi_row = (
+            await session.execute(text("SELECT name FROM aois WHERE id = :id"), {"id": aoi_id})
+        ).first()
+        if aoi_row:
+            story.append(Paragraph(f"AOI: {aoi_row[0]}", styles["Normal"]))
+            story.append(Spacer(1, 8))
+
+    preview = await _scene_preview_path(session, aoi_id)
+    if preview:
+        png_bytes = _raster_to_png_bytes(preview)
+        if png_bytes:
+            story.append(Paragraph("Scene Preview", styles["Heading3"]))
+            story.append(Spacer(1, 6))
+            story.append(RLImage(io.BytesIO(png_bytes), width=5 * inch, height=3 * inch))
+            story.append(Spacer(1, 12))
 
     by_class: dict[str, int] = {}
     for row in rows:

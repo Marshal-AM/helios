@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { AuthProvider } from "@/components/AuthProvider";
+import { NavBar } from "@/components/NavBar";
 
 export const metadata: Metadata = {
-  title: "Helios — Satellite Surveillance MVP",
-  description: "AI-Based Satellite Image Analysis MVP — Phase 1",
+  title: "Helios — Satellite Surveillance",
+  description: "AI-Based Satellite Image Analysis — 3D Globe Dashboard",
 };
 
 export default function RootLayout({
@@ -13,7 +15,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <AuthProvider>
+          <div className="app-shell">
+            <NavBar />
+            <div className="app-main">{children}</div>
+          </div>
+        </AuthProvider>
+      </body>
     </html>
   );
 }

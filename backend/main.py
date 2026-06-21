@@ -73,11 +73,11 @@ async def health():
             await conn.execute(text("SELECT 1"))
             db_status = "connected"
     except Exception as exc:
-        return {"status": "degraded", "db": db_status, "error": str(exc), "phase": 4}
+        return {"status": "degraded", "db": db_status, "error": str(exc), "phase": 5}
 
-    return {"status": "ok", "db": db_status, "phase": 4, "ws_clients": ws_manager.count}
+    return {"status": "ok", "db": db_status, "phase": 5, "ws_clients": ws_manager.count}
 
 
 @app.get("/")
 async def root():
-    return {"service": "helios-api", "phase": 4}
+    return {"service": "helios-api", "phase": 5}

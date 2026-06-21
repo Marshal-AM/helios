@@ -30,6 +30,11 @@ class AoiCreate(BaseModel):
     geometry: GeoJsonGeometry
 
 
+class AoiUpdate(BaseModel):
+    monitoring_active: bool | None = None
+    priority: AoiPriority | None = None
+
+
 class AlertAcknowledge(BaseModel):
     acknowledged_by: str = Field(..., min_length=1, max_length=255)
 

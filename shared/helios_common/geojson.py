@@ -101,6 +101,10 @@ def aoi_feature(
     priority: str,
     last_pass_at: datetime | None,
     monitoring_active: bool,
+    *,
+    last_satellite_source: str | None = None,
+    last_cloud_cover_pct: float | None = None,
+    active_detection_count: int = 0,
 ) -> dict[str, Any]:
     return polygon_feature(
         polygon_geojson,
@@ -110,6 +114,9 @@ def aoi_feature(
             "priority": priority,
             "last_pass_at": last_pass_at.isoformat() if last_pass_at else None,
             "monitoring_active": monitoring_active,
+            "last_satellite_source": last_satellite_source,
+            "last_cloud_cover_pct": last_cloud_cover_pct,
+            "active_detection_count": active_detection_count,
         },
         feature_id=aoi_id,
     )

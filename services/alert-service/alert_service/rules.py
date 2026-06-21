@@ -86,11 +86,15 @@ def fire_alert(
         if ce:
             ce.alert_fired = True
 
+    aoi = session.get(Aoi, aoi_id)
+    aoi_name = aoi.name if aoi else None
+
     publish_event(
         ALERT_FIRED,
         {
             "id": alert.id,
             "aoi_id": aoi_id,
+            "aoi_name": aoi_name,
             "alert_type": alert_type,
             "severity": severity.value,
             "lat": lat,

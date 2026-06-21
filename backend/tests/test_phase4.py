@@ -83,7 +83,7 @@ async def test_health_endpoint():
         resp = await client.get("/health")
     assert resp.status_code == 200
     data = resp.json()
-    assert data["phase"] == 4
+    assert data["phase"] == 5
 
 
 @pytest.mark.asyncio
