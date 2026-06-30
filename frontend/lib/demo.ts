@@ -1,6 +1,6 @@
 /** Static demo mode — serves bundled JSON from /demo/data (no backend). */
 
-import type { AoiFeature } from "./types";
+import type { AoiFeature, DetectionFeature, FeatureCollection } from "./types";
 
 export function isDemoMode(): boolean {
   return process.env.NEXT_PUBLIC_DEMO_MODE === "true";
@@ -37,12 +37,12 @@ async function loadDemoJson<T>(name: string): Promise<T> {
   return data;
 }
 
-export async function demoAois() {
+export async function demoAois(): Promise<FeatureCollection<AoiFeature>> {
   const stored = readAoiStore();
   if (stored) {
-    return { type: "FeatureCollection" as const, features: stored };
+    return { type: "FeatureCollection", features: stored };
   }
-  return loadDemoJson<{ type: string; features: AoiFeature[] }>("aois");
+  return loadDemoJson<FeatureCollection<AoiFeature>>("aois");
 }
 
 export async function demoCreateAoi(body: {
@@ -97,10 +97,8 @@ export async function demoDeactivateAoi(id: number): Promise<{ id: number; monit
   return { id, monitoring_active: false };
 }
 
-export async function demoDetections() {
-  return loadDemoJson<{ type: string; features: import("./types").DetectionFeature[] }>(
-    "detections"
-  );
+export async function demoDetections(): Promise<FeatureCollection<DetectionFeature>> {
+  return loadDemoJson<FeatureCollection<DetectionFeature>>("detections");
 }
 
 export async function demoChanges() {
